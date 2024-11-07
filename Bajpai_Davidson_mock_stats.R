@@ -6,7 +6,6 @@ install.packages(kableExtra)
 library(kableExtra)
 
 #import our mock data set
-d <- read.csv(file.choose()) #original data set
 df <- read.csv(file.choose()) #this is the data frame we will be working with
 
 #change effort and gender variable to categorical
@@ -33,3 +32,4 @@ summary(multReg)
 
 #graphing our data (simple version)
 plot(df$AER, df$time, col = df$effort)
+
