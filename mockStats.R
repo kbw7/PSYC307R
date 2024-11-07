@@ -16,7 +16,7 @@ df$gender <- as.factor(df$gender)
 #add here
 
 #analyze persistence with both adult social models and emotion regulation, we would run a multiple regression
-multReg <- lm(time~effort~age * AER, data = df)
+multReg <- lm(time~effort * AER + age, data = df)
 summary(multReg)
 
 #maybe add age as a predictor var
