@@ -14,7 +14,7 @@ df$gender <- as.factor(df$gender)
 
 #Descriptive Statistics
 #analyze persistence and adult social model ONLY - t-test one-way ANOVA
-tTest <- t.test(df$time, df$effort)
+tTest <- t.test(time~effort, var.equal = TRUE, data = df)
 anova <- aov(time ~ effort, data = df)
 
 #analyze persistence and emotion regulation ONLY - Pearson correlation
@@ -23,3 +23,6 @@ pearCor <- cor(df$time, df$AER, method = 'pearson')
 #analyze persistence with both adult social models and emotion regulation, we would run a multiple regression
 multReg <- lm(time~effort * AER, data = df)
 summary(multReg)
+
+#graphing our data (simple version)
+plot(df$AER, df$time, col = df$effort)
