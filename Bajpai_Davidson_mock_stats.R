@@ -2,15 +2,17 @@
 #install kableExtra for tables with descriptive stats
 #table1 package does the APA format looking table with calculations
 #sjplot to summarize regression models, tab_model(nameofmodel) is the command, very beautiful table
-install.packages(kableExtra)
+library(sjmisc)
+library(sjPlot)
 library(kableExtra)
+library(ggplot2)
 
 #import our mock data set
 df <- read.csv(file.choose()) #this is the data frame we will be working with
 
-#change effort and gender variable to categorical
+#change effort and sex variable to categorical
 df$effort <- as.factor(df$effort)
-df$gender <- as.factor(df$gender)
+df$sex <- as.factor(df$sex)
 
 #Descriptive Statistics
 
@@ -23,13 +25,77 @@ sd(df$AER)
 #time
 summary(df$time)
 sd(df$time)
-#gender
-table(df$gender)
+#sex
+table(df$sex)
+#groups
+table(df$effort)
+#sex and effort
+table(df$effort, df$sex)
+#age and effort
+table(df$effort, df$age)
+
+#er in high
+summary(df$ER[df$effort == "1"])
+sd(df$ER[df$effort == "1"])
+
+
+#er in low
+summary(df$ER[df$effort == "0"])
+sd(df$ER[df$effort == "0"])
+
+#ln in high
+summary(df$LN[df$effort == "1"])
+sd(df$LN[df$effort == "1"])
+
+#ln in low
+summary(df$LN[df$effort == "0"])
+sd(df$LN[df$effort == "0"])
+
+#AER in high
+summary(df$AER[df$effort == "1"])
+sd(df$AER[df$effort == "1"])
+
+#AER in low
+summary(df$AER[df$effort == "0"])
+sd(df$AER[df$effort == "0"])
+
+#time in high
+summary(df$time[df$effort == "0"])
+sd(df$time[df$effort == "0"])
+
+#time in low
+summary(df$time[df$effort == "1"])
+sd(df$time[df$effort == "1"])
 
 #analyze persistence with both adult social models and emotion regulation, we would run a multiple regression
 multReg <- lm(time~effort * AER + age, data = df)
-summary(multReg)
+coef(summary(multReg))[,"t value"]
 
 #graphing our data (simple version)
 plot(df$AER, df$time, col = df$effort)
 
+#SJ plot with regression table
+tab_model(multReg, show.se =TRUE, show.stat = TRUE)
+
+#SJ plot model with visualization
+p <- plot_model(multReg, type = "pred", terms = c("AER[1.0, 4.0]", "effort"), 
+                axis.title = c("AER", "Time (seconds)"), 
+                title = c("Predicted seconds of persistence across measures of AER"),
+                legend.title = c("Effort Condition"), alpha= 0.3)
+
+apatheme=theme_bw()+
+  theme(panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        panel.border=element_blank(),
+        axis.line=element_line(), 
+        axis.text= element_text(size = 12),
+        axis.title.x= element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)),
+        axis.title.y= element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
+        text=element_text(family='Times', size= 12),
+        plot.title= element_text(face = "italic", size = 12, margin = margin(t = 0, r = 0, b = 20, l = 0)),
+        legend.title=element_text(size = 12))
+
+p + apatheme + scale_color_manual(name= "Effort Condition", values = c("red", "blue"), labels = c("Low", "High"))
+
+
+#make sure to make variable names accurate like high and low
