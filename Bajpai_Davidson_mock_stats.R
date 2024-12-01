@@ -1,7 +1,4 @@
 #Mock Statistical Analysis
-#install kableExtra for tables with descriptive stats
-#table1 package does the APA format looking table with calculations
-#sjplot to summarize regression models, tab_model(nameofmodel) is the command, very beautiful table
 library(sjmisc)
 library(sjPlot)
 library(kableExtra)
@@ -16,6 +13,7 @@ df$sex <- as.factor(df$sex)
 
 #Descriptive Statistics
 
+#As a whole... in BOTH conditions
 #age
 summary(df$age)
 sd(df$age)
@@ -27,17 +25,19 @@ summary(df$time)
 sd(df$time)
 #sex
 table(df$sex)
-#groups
+
+
+#how many participants in both conditions
 table(df$effort)
 #sex and effort
 table(df$effort, df$sex)
 #age and effort
 table(df$effort, df$age)
 
+
 #er in high
 summary(df$ER[df$effort == "1"])
 sd(df$ER[df$effort == "1"])
-
 
 #er in low
 summary(df$ER[df$effort == "0"])
@@ -66,6 +66,16 @@ sd(df$time[df$effort == "0"])
 #time in low
 summary(df$time[df$effort == "1"])
 sd(df$time[df$effort == "1"])
+
+#average age in low and high effort conditions
+#low
+summary(df$age[df$effort == 0])
+sd(df$age[df$effort == 0])
+
+#high
+summary(df$age[df$effort == 1])
+sd(df$age[df$effort == 1])
+
 
 #analyze persistence with both adult social models and emotion regulation, we would run a multiple regression
 multReg <- lm(time~effort * AER + age, data = df)
@@ -99,3 +109,14 @@ p + apatheme + scale_color_manual(name= "Effort Condition", values = c("red", "b
 
 
 #make sure to make variable names accurate like high and low
+
+#gender differences for Emotion Regulation
+summary(df$AER[df$sex == "M"])
+summary(df$AER[df$sex == "F"])
+
+summary(df$ER[df$sex == "M"])
+summary(df$ER[df$sex == "F"])
+
+summary(df$LN[df$sex == "M"])
+summary(df$LN[df$sex == "F"])
+
