@@ -3,6 +3,7 @@ library(sjmisc)
 library(sjPlot)
 library(kableExtra)
 library(ggplot2)
+library(car)
 
 #import our mock data set
 df <- read.csv(file.choose()) #this is the data frame we will be working with
@@ -76,10 +77,13 @@ sd(df$age[df$effort == 0])
 summary(df$age[df$effort == 1])
 sd(df$age[df$effort == 1])
 
+#levenes test on time and effort
+leveneTest(time~effort, df)
 
 #analyze persistence with both adult social models and emotion regulation, we would run a multiple regression
 multReg <- lm(time~effort * AER + age, data = df)
 coef(summary(multReg))[,"t value"]
+summary(multReg)
 
 #graphing our data (simple version)
 plot(df$AER, df$time, col = df$effort)
@@ -101,7 +105,7 @@ apatheme=theme_bw()+
         axis.text= element_text(size = 12),
         axis.title.x= element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)),
         axis.title.y= element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
-        text=element_text(family='Times', size= 12),
+        text=element_text(family='Arial', size= 12),
         plot.title= element_text(face = "italic", size = 12, margin = margin(t = 0, r = 0, b = 20, l = 0)),
         legend.title=element_text(size = 12))
 
@@ -112,11 +116,28 @@ p + apatheme + scale_color_manual(name= "Effort Condition", values = c("red", "b
 
 #gender differences for Emotion Regulation
 summary(df$AER[df$sex == "M"])
+sd(df$AER[df$sex == "M"])
+
 summary(df$AER[df$sex == "F"])
+sd(df$AER[df$sex == "F"])
 
 summary(df$ER[df$sex == "M"])
+sd(df$ER[df$sex == "M"])
+
 summary(df$ER[df$sex == "F"])
+sd(df$ER[df$sex == "F"])
 
 summary(df$LN[df$sex == "M"])
+sd(df$LN[df$sex == "M"])
+
 summary(df$LN[df$sex == "F"])
+sd(df$LN[df$sex == "F"])
+
+
+#Gender differences for persistence
+summary(df$time[df$sex == "M"])
+sd(df$time[df$sex == "M"])
+
+summary(df$time[df$sex == "F"])
+sd(df$time[df$sex == "F"])
 
