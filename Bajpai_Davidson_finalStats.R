@@ -117,7 +117,6 @@ apatheme=theme_bw()+
         axis.text= element_text(size = 12),
         axis.title.x= element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)),
         axis.title.y= element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
-        #text=element_text(family='Times', size= 12),
         plot.title= element_text(face = "italic", size = 12, margin = margin(t = 0, r = 0, b = 20, l = 0)),
         legend.title=element_text(size = 12))
 
