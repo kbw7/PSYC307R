@@ -100,8 +100,8 @@ confint(multReg)
 #graphing our data (simple version)
 plot(df$AER, df$time, col = df$effort)
 
-#SJ plot with regression table
-tab_model(multReg, show.se =TRUE, show.stat = TRUE)
+#SJ plot with regression table - don't end up using the incidence rate ratios, std. error, and CI values
+#tab_model(multReg, show.se =TRUE, show.stat = TRUE)
 
 #SJ plot model with visualization
 p <- plot_model(multReg, type = "pred", terms = c("AER[1.0, 4.0]", "effort"), 
