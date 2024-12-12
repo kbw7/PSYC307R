@@ -122,3 +122,20 @@ apatheme=theme_bw()+
 
 p + apatheme + scale_color_manual(name= "Effort Condition", values = c("red", "blue"), labels = c("Low", "High"))
 
+#plotting AER scores for individuals, with effort condition noted
+aerDf <- data.frame(Participant = c(1:27), AER = df$AER, Effort = df$effort)
+
+aerPlot <-ggplot(aerDf, aes(x = Participant, y = AER, col= Effort)) + 
+  ylim(1.0,4.0) +
+  scale_x_continuous(breaks= seq(1, 27, by=1)) + 
+  theme_classic() +
+  geom_point(size=3) +
+  theme(axis.text.y = element_text(size = 14)) + 
+  theme(axis.title.x = element_text(size = 14)) +
+  theme(axis.title.y = element_text(size = 14)) +
+  labs(color = "Effort Condition") + 
+  scale_color_discrete(
+    labels = c("0" = "Low", 
+               "1" = "High")
+  )
+aerPlot
