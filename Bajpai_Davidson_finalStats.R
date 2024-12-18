@@ -94,6 +94,11 @@ summary(df$time[df$sex == "F"])
 multReg <- glm(time~effort * AER + age, data = df, family = "poisson")
 summary(multReg)
 
+#chi-squared test to see if model fit data well
+#Source: https://stats.oarc.ucla.edu/r/dae/poisson-regression/#:~:text=Therefore%2C%20if%20the%20residual%20difference,an%20issue%20of%20over%2Ddispersion.
+with(multReg, cbind(res.deviance = deviance, df = df.residual,
+               p = pchisq(deviance, df.residual, lower.tail=FALSE)))
+
 #confidence intervals of our data
 confint(multReg)
 
